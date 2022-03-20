@@ -19,7 +19,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.ts'],
+        extensions: ['.js', '.ts', '.tsx'],
         moduleDirectory: ['node_modules', './src'],
       },
     },
