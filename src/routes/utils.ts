@@ -12,80 +12,72 @@ export function configToRoutesAndNavigation(
   };
   const routes: RouteRecordRaw[] = [layoutRoutes];
   let navigation: Navigation[] = [];
-  function configToRoutes(_config: DefRecordRaw[]) {
+  function configToRoutes(_config: DefRecordRaw[], parent: RouteRecordRaw|null = null) {
     _config.forEach((item) => {
+      const base = {
+        name: item.name || item.id,
+        path: item.path as string,
+        meta: {
+          ...item.meta,
+          public: item.public,
+          layout: item.layout,
+          parent,
+        },
+        component: () => import(`../view${item.componentPath}`),
+      };
       if (item.type !== 'group') {
         if (!item.layout) {
-          layoutRoutes.children?.push({
-            name: item.name || item.id,
-            path: item.path as string,
-            meta: {
-              ...item.meta,
-              public: item.public,
-              layout: item.layout,
-            },
-            component: () => import(`../view${item.componentPath}`),
-          });
+          layoutRoutes.children?.push(base);
         }
         if (item.layout === 'full') {
-          routes.push({
-            name: item.name || item.id,
+          routes.push(Object.assign(base, {
             path: `/${item.path}`,
-            meta: {
-              ...item.meta,
-              public: item.public,
-              layout: item.layout,
-            },
-            component: () => import(`../view${item.componentPath}`),
-          });
+          }));
         }
         if (Array.isArray(item.children)) {
-          configToRoutes(item.children);
+          configToRoutes(item.children, base);
         }
       }
     });
   }
-  function configToNavigation(_config: DefRecordRaw[]): Navigation[] {
+  function configToNavigation(_config: DefRecordRaw[], parentNav:Navigation|null): Navigation[] {
     return _config.map((item): Navigation => {
+      const base = {
+        id: item.id,
+        name: item.name || item.id,
+        title: item.title,
+        type: item.type,
+        parent: parentNav,
+      };
       if (item.type === 'group') {
-        return {
-          id: item.id,
-          name: item.name || item.id,
-          title: item.title,
-          type: item.type,
-          children: configToNavigation(item.children || []),
-        };
+        return Object.assign(base, {
+          children: configToNavigation(item.children || [], base),
+        });
       }
       if (Array.isArray(item.children)) {
         let path = '';
         if (!item.layout) {
-          path = `/layout${item.path}`;
+          path = `/layout/${item.path}`;
         }
         if (item.layout === 'full') {
           path = item.path as string;
         }
         if (item.layout === 'main') {
-          path = `/main${item.path}`;
+          path = `/main/${item.path}`;
         }
-        return {
-          id: item.id,
-          name: item.name || item.id,
+        return Object.assign(base, {
+          type: item.type || 'page',
           path,
-          title: item.title,
-          type: item.type,
-          children: configToNavigation(item.children),
-        };
+          children: configToNavigation(item.children || [], base),
+        });
       }
-      return {
-        id: item.id,
-        name: item.name || item.id,
+      return Object.assign(base, {
         path: item.path,
-        title: item.title,
-        type: item.type,
-      };
+        type: item.type || 'page',
+      });
     });
   }
   configToRoutes(config);
-  navigation = configToNavigation(config);
+  navigation = configToNavigation(config, null);
   return [routes, navigation];
 }

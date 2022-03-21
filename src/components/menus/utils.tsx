@@ -1,11 +1,12 @@
 import { RouterLink } from 'vue-router';
-import { NIcon, NMenu } from 'naive-ui';
+import { NIcon } from 'naive-ui';
 import type { DefineComponent } from 'vue';
 import type { MenuOption } from 'naive-ui';
 import type { Navigation } from '../../routes/config';
 
 interface Props {
-  menus: Navigation[]
+  menus: Navigation[],
+  active: string
 }
 const renderIcon = (Icon: DefineComponent) => (
   <NIcon>
@@ -31,7 +32,10 @@ const renderLabel = (nav: Navigation) => {
   );
 };
 
-const NavigationToMenuOption = (navigation: Navigation[]): MenuOption[] => navigation.map((_n) => {
+export const NavigationToMenuOption = (
+  navigation: Navigation[],
+): MenuOption[] => navigation.map((_n) => {
+  if (_n.type === 'page') return null;
   if (_n.type === 'group') {
     return {
       label: () => renderLabel(_n),
@@ -43,14 +47,4 @@ const NavigationToMenuOption = (navigation: Navigation[]): MenuOption[] => navig
     label: () => renderLabel(_n),
     key: _n.id,
   };
-});
-
-const MainMenus = (props: Props) => {
-  const menuOption = NavigationToMenuOption(props.menus);
-  console.log(menuOption);
-  return (
-    <NMenu options={menuOption}></NMenu>
-  );
-};
-
-export default MainMenus;
+}).filter((item) => item) as MenuOption[];
