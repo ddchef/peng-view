@@ -6,6 +6,15 @@
     <div :class="$style['peng-title']">{{ props.title }}</div>
     <div :class="$style['peng-user']">
       <n-space :size="0" align="center" style="height: 40px;">
+        <n-button quaternary circle @click="handleToggleTheme">
+          <template #icon>
+            <n-icon size="18">
+              <sunny-outline v-show="$state.theme === 'light'"></sunny-outline>
+              <moon-outline v-show="$state.theme === 'dark'"></moon-outline>
+            </n-icon>
+          </template>
+        </n-button>
+        <n-divider vertical />
         <n-avatar size="medium" round :src="props.user?.avatar"></n-avatar>
         <n-divider vertical />
         <n-dropdown trigger="click" show-arrow :options="options">
@@ -20,9 +29,15 @@
 <script setup lang="ts">
 import { withDefaults, defineProps } from 'vue';
 import {
-  NSpace, NAvatar, NDivider, NEllipsis, NDropdown, NButton,
+  NSpace, NAvatar, NDivider, NEllipsis, NDropdown, NButton, NIcon,
 } from 'naive-ui';
-import { User } from '../../store/index';
+import { SunnyOutline, MoonOutline } from '@vicons/ionicons5';
+import { useMainStore, User } from '../../store/index';
+
+const { $state, toggleTheme } = useMainStore();
+const handleToggleTheme = () => {
+  toggleTheme();
+};
 
 const props = withDefaults(defineProps<{
   logo: string,

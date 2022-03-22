@@ -15,7 +15,8 @@ interface Main {
   logo: string,
   title: string,
   subTitle: string,
-  user: User
+  user: User,
+  theme: 'dark'|'light'
 }
 
 export const useMainStore = defineStore('main', {
@@ -32,6 +33,7 @@ export const useMainStore = defineStore('main', {
       realName: '系统管理员',
       phone: '18222222222',
     },
+    theme: 'light',
   }),
   actions: {
     setNavigation(navigation: Navigation[]) {
@@ -39,6 +41,13 @@ export const useMainStore = defineStore('main', {
     },
     setNavigationMap(navigationMap: Map<string, Navigation>) {
       this.navigationMap = navigationMap;
+    },
+    toggleTheme() {
+      if (this.theme === 'dark') {
+        this.theme = 'light';
+        return;
+      }
+      this.theme = 'dark';
     },
     async fetchPermissions() {
       // todo

@@ -7,10 +7,7 @@
       <n-layout-sider width="150" bordered>
         <m-menus :active="active" :navigation="$state.navigation"></m-menus>
       </n-layout-sider>
-      <n-layout-content :content-style="{
-          backgroundColor:'#f9f9f9',
-          padding: '30px 10px 0 10px',
-        }"
+      <n-layout-content
         native-scrollbar
       >
         <div :class="$style.breadcrumb">
@@ -19,9 +16,6 @@
         <n-el tag="div"
           style="
             background-color: var(--n-color);
-            border: 1px solid;
-            border-color: var(--border-color);
-            border-radius: var(--border-radius);
             min-height: calc(100% - 20px);
             padding: 10px;
           ">
@@ -65,7 +59,7 @@ watch(route, () => {
   height: calc(100% - 61px);
 }
 .breadcrumb{
-  padding: 5px 0;
+  padding: 5px 10px;
   position: absolute;
   top: 0px;
 }
