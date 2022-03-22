@@ -67,4 +67,11 @@ export default <DefRecordRaw[]>[
       },
     ],
   },
+  {
+    id: 'setting',
+    path: 'setting',
+    title: '系统设置',
+    componentPath: '/setting/index.vue',
+    type: 'menu',
+  },
 ];
