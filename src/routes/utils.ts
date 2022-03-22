@@ -3,7 +3,7 @@ import { DefRecordRaw, Navigation } from './config';
 
 export function configToRoutesAndNavigation(
   config: DefRecordRaw[],
-): [RouteRecordRaw[], Navigation[]] {
+): [RouteRecordRaw[], Navigation[], Map<string, Navigation>] {
   const layoutRoutes: RouteRecordRaw = {
     name: 'layout',
     path: '/layout',
@@ -12,6 +12,7 @@ export function configToRoutesAndNavigation(
   };
   const routes: RouteRecordRaw[] = [layoutRoutes];
   let navigation: Navigation[] = [];
+  const navigationMap:Map<string, Navigation> = new Map();
   function configToRoutes(_config: DefRecordRaw[], parent: RouteRecordRaw|null = null) {
     _config.forEach((item) => {
       const base = {
@@ -49,6 +50,7 @@ export function configToRoutesAndNavigation(
         type: item.type,
         parent: parentNav,
       };
+      navigationMap.set(base.name, base);
       if (item.type === 'group') {
         return Object.assign(base, {
           children: configToNavigation(item.children || [], base),
@@ -79,5 +81,5 @@ export function configToRoutesAndNavigation(
   }
   configToRoutes(config);
   navigation = configToNavigation(config, null);
-  return [routes, navigation];
+  return [routes, navigation, navigationMap];
 }

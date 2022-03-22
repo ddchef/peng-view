@@ -43,7 +43,7 @@ const options = [
 </script>
 <style module scoped lang="scss">
 .peng-header {
-  padding: 0px 15px;
+  padding: 10px 15px;
   display: flex;
 }
 .peng-logo {
