@@ -36,6 +36,7 @@
             background-color: var(--n-color);
             min-height: calc(100% - 20px);
             padding: 10px;
+            margin-top: 20px;
           ">
           <router-view></router-view>
         </n-el>
