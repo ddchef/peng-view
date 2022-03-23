@@ -8,5 +8,5 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
 });
-
+console.log(routes, navigation, navigationMap);
 export { router, navigation, navigationMap };

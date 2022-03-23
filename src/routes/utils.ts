@@ -39,6 +39,9 @@ export function configToRoutesAndNavigation(
           configToRoutes(item.children, base);
         }
       }
+      if (item.type === 'group' && Array.isArray(item.children)) {
+        configToRoutes(item.children, null);
+      }
     });
   }
   function configToNavigation(_config: DefRecordRaw[], parentNav:Navigation|null): Navigation[] {

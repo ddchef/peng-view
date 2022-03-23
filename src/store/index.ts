@@ -16,7 +16,8 @@ interface Main {
   title: string,
   subTitle: string,
   user: User,
-  theme: 'dark'|'light'
+  theme: 'dark'|'light',
+  menuMode: 'left'|'top',
 }
 
 export const useMainStore = defineStore('main', {
@@ -25,7 +26,7 @@ export const useMainStore = defineStore('main', {
     navigationMap: new Map(),
     permissions: [],
     logo: '/logo.png',
-    title: '碰管理系统',
+    title: 'PENG管理系统',
     subTitle: '',
     user: {
       avatar: 'https://rumenz.com/static/cimg/img/demo2.jpg',
@@ -34,6 +35,7 @@ export const useMainStore = defineStore('main', {
       phone: '18222222222',
     },
     theme: 'light',
+    menuMode: 'left',
   }),
   actions: {
     setNavigation(navigation: Navigation[]) {

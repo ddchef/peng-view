@@ -1,9 +1,10 @@
 <template>
   <n-breadcrumb>
     <template v-for="b in breadcrumb"  :key="b.name">
-      <n-breadcrumb-item >
+      <n-breadcrumb-item v-if="b.path" >
         <router-link :to="{name:b.name}">{{b.title}}</router-link>
       </n-breadcrumb-item>
+      <n-breadcrumb-item v-else>{{b.title}}</n-breadcrumb-item>
     </template>
   </n-breadcrumb>
 </template>

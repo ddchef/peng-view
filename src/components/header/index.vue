@@ -1,9 +1,9 @@
 <template>
   <div :class="$style['peng-header']">
-    <div :class="$style['peng-logo']">
-      <img :class="$style['peng-logo']" src="@/assets/logo.png" />
-    </div>
     <div :class="$style['peng-title']">{{ props.title }}</div>
+    <div :class="$style['peng-menus']">
+      <slot></slot>
+    </div>
     <div :class="$style['peng-user']">
       <n-space :size="0" align="center" style="height: 40px;">
         <n-button quaternary circle @click="handleToggleTheme">
@@ -15,7 +15,7 @@
           </template>
         </n-button>
         <n-divider vertical />
-        <n-avatar size="medium" round :src="props.user?.avatar"></n-avatar>
+        <n-avatar size="small" bordered round :src="props.user?.avatar"></n-avatar>
         <n-divider vertical />
         <n-dropdown trigger="click" show-arrow :options="options">
           <n-button text>
@@ -61,12 +61,11 @@ const options = [
   padding: 10px 15px;
   display: flex;
 }
-.peng-logo {
-  height: 40px;
-  width: 40px;
+.peng-menus {
+  flex: 1;
 }
 .peng-title {
-  flex: 1;
+  max-width: 200px;
   font-size: 18px;
   line-height: 40px;
   padding: 0 10px;

@@ -1,11 +1,29 @@
 <template>
   <n-layout :class="$style.full">
     <n-layout-header bordered>
-      <m-header :logo="$state.logo" :title="$state.title" :user="$state.user"></m-header>
+      <m-header :logo="$state.logo" :title="$state.title" :user="$state.user">
+        <m-menus
+          v-if="$state.menuMode === 'top'"
+          :active="active"
+          :navigation="$state.navigation"
+          mode="horizontal"
+        ></m-menus>
+      </m-header>
     </n-layout-header>
     <n-layout :class="$style['without-header-height']" has-sider>
-      <n-layout-sider width="150" bordered>
-        <m-menus :active="active" :navigation="$state.navigation"></m-menus>
+      <n-layout-sider
+        v-if="$state.menuMode === 'left'"
+        width="200"
+        bordered
+        collapse-mode="transform"
+        :collapsed-width="0"
+        show-trigger
+        :collapsed-trigger-style="{right:'-20px'}"
+      >
+        <m-menus
+          :active="active"
+          :navigation="$state.navigation"
+        ></m-menus>
       </n-layout-sider>
       <n-layout-content
         native-scrollbar
