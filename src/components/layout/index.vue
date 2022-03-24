@@ -27,16 +27,22 @@
       </n-layout-sider>
       <n-layout-content
         native-scrollbar
+        :content-style="{
+          'background-color': $state.contentBodyColor
+        }"
       >
         <div :class="$style.breadcrumb">
           <m-breadcrumb :value="breadcrumb"/>
         </div>
         <n-el tag="div"
           style="
-            background-color: var(--n-color);
-            min-height: calc(100% - 20px);
+            background-color: var(--body-color);
+            margin: 10px;
+            min-height: calc(100% - 75px);
+            border-radius: var(--border-radius);
+            border: 1px solid;
+            border-color: var(--border-color);
             padding: 10px;
-            margin-top: 20px;
           ">
           <router-view></router-view>
         </n-el>
@@ -78,8 +84,6 @@ watch(route, () => {
   height: calc(100% - 61px);
 }
 .breadcrumb{
-  padding: 5px 10px;
-  position: absolute;
-  top: 0px;
+  margin: 5px 10px;
 }
 </style>

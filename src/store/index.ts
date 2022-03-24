@@ -18,6 +18,7 @@ interface Main {
   user: User,
   theme: 'dark'|'light',
   menuMode: 'left'|'top',
+  contentBodyColor: string,
 }
 
 export const useMainStore = defineStore('main', {
@@ -36,6 +37,7 @@ export const useMainStore = defineStore('main', {
     },
     theme: 'light',
     menuMode: 'left',
+    contentBodyColor: 'rgb(246, 246, 246)',
   }),
   actions: {
     setNavigation(navigation: Navigation[]) {
@@ -47,9 +49,11 @@ export const useMainStore = defineStore('main', {
     toggleTheme() {
       if (this.theme === 'dark') {
         this.theme = 'light';
+        this.contentBodyColor = 'rgb(246, 246, 246)';
         return;
       }
       this.theme = 'dark';
+      this.contentBodyColor = 'rgb(24 24 28)';
     },
     async fetchPermissions() {
       // todo
