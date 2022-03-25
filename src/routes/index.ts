@@ -48,10 +48,6 @@ export const router = mixRouterHook(
           public: true,
         },
       },
-      {
-        path: '/:catchAll(.*)',
-        redirect: '/404',
-      },
     ],
   }),
 );

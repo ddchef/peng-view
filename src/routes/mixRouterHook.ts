@@ -9,11 +9,14 @@ export default function mixRouterHook(router:Router):Router {
     next:NavigationGuardNext,
   ) => {
     const store = useMainStore();
-    if (!store.isAuthenticated && to.name !== 'login') next({ name: 'login' });
-    if (store.isAuthenticated && store.permissions.length === 0) {
+    if (!store.isAuthenticated && to.name !== 'login') {
+      next({ name: 'login' });
+    } else if (store.isAuthenticated && store.permissions.length === 0) {
       store.fetchPermissions(config, router).then(() => {
         next({ ...to, replace: true });
       });
+    } else if (store.isAuthenticated && to.name === 'login') {
+      next({ path: '/', replace: true });
     } else next();
   });
   return router;

@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router';
 import type { DefRecordRaw, Navigation } from '../routes';
 
 export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
-  RouteRecordRaw[], Navigation[], Map<string, Navigation>
+  RouteRecordRaw[], Navigation[], Map<string, Navigation>, string
 ] {
   const layoutRoutes: RouteRecordRaw = {
     name: 'layout',
@@ -12,6 +12,7 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
   };
   const routes: RouteRecordRaw[] = [layoutRoutes];
   const navigationMap:Map<string, Navigation> = new Map();
+  let defaultPath = '';
   const filterFuc = (
     _config:DefRecordRaw[],
     parentNav:Navigation|null = null,
@@ -33,6 +34,7 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
         public: item.public,
         layout: item.layout,
         parent: parentRoute,
+        type: item.type,
       },
       component: () => import(`../view${item.componentPath}`),
     };
@@ -61,6 +63,9 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
     if (item.layout === 'main') {
       path = `/main/${item.path}`;
     }
+    if (!defaultPath) {
+      defaultPath = path;
+    }
     if (path) {
       Object.assign(baseNav, {
         path,
@@ -74,5 +79,5 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
     return baseNav;
   }).filter((item) => item) as Navigation[];
   const navigation: Navigation[] = filterFuc(config, null, null);
-  return [routes, navigation, navigationMap];
+  return [routes, navigation, navigationMap, defaultPath];
 }

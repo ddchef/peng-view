@@ -21,7 +21,8 @@ interface Main {
   theme: 'dark'|'light',
   menuMode: 'left'|'top',
   contentBodyColor: string,
-  token: string
+  token: string,
+  indexPath: string,
 }
 
 export const useMainStore = defineStore('main', {
@@ -42,6 +43,7 @@ export const useMainStore = defineStore('main', {
     menuMode: 'left',
     contentBodyColor: 'rgb(246, 246, 246)',
     token: '',
+    indexPath: '',
   }),
   actions: {
     setNavigation(navigation: Navigation[]) {
@@ -65,12 +67,25 @@ export const useMainStore = defineStore('main', {
     async fetchPermissions(_config:DefRecordRaw[], router:Router) {
       // todo
       this.permissions = ['user'];
-      const [routes, navigation, navigationMap] = filterPermissions(_config, this.permissions);
+      const [
+        routes, navigation, navigationMap, defaultPath,
+      ] = filterPermissions(_config, this.permissions);
       this.setNavigation(navigation);
       this.setNavigationMap(navigationMap);
       routes.forEach((route) => {
         router.addRoute(route);
       });
+      router.addRoute({
+        path: '/',
+        redirect: defaultPath,
+      });
+      router.addRoute(
+        {
+          path: '/:catchAll(.*)',
+          redirect: '/404',
+        },
+      );
+      this.indexPath = defaultPath;
     },
     async fetchUserInfo() {
       // todo
@@ -78,5 +93,14 @@ export const useMainStore = defineStore('main', {
   },
   getters: {
     isAuthenticated: (state):boolean => state.token !== '',
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        storage: localStorage,
+        paths: ['theme', 'menuMode', 'token'],
+      },
+    ],
   },
 });
