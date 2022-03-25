@@ -1,30 +1,4 @@
-import type { RouteMeta } from 'vue-router';
-
-type RecordRawType = 'group' | 'menu' | 'page'
-type LayoutType = 'full' | 'main' | 'layout'
-export interface DefRecordRaw {
-  id: string,
-  name?: string,
-  title: string,
-  type: RecordRawType,
-  path?: string,
-  componentPath?: string,
-  meta?: RouteMeta,
-  public?: boolean,
-  layout?: LayoutType,
-  children?: DefRecordRaw[]
-}
-
-export interface Navigation {
-  id: string,
-  name: string,
-  title: string,
-  type: RecordRawType,
-  path?: string,
-  href?: string,
-  parent: Navigation|null,
-  children?: Navigation[]
-}
+import { DefRecordRaw } from '.';
 
 export default <DefRecordRaw[]>[
   {

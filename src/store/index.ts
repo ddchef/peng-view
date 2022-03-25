@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
-import { Navigation } from '../routes/config';
+import type { Router } from 'vue-router';
+import { DefRecordRaw, Navigation } from '../routes';
+import { filterPermissions } from '../utils/auth';
 
 export interface User {
   avatar: string,
@@ -19,6 +21,7 @@ interface Main {
   theme: 'dark'|'light',
   menuMode: 'left'|'top',
   contentBodyColor: string,
+  token: string
 }
 
 export const useMainStore = defineStore('main', {
@@ -38,6 +41,7 @@ export const useMainStore = defineStore('main', {
     theme: 'light',
     menuMode: 'left',
     contentBodyColor: 'rgb(246, 246, 246)',
+    token: '',
   }),
   actions: {
     setNavigation(navigation: Navigation[]) {
@@ -45,6 +49,9 @@ export const useMainStore = defineStore('main', {
     },
     setNavigationMap(navigationMap: Map<string, Navigation>) {
       this.navigationMap = navigationMap;
+    },
+    setToken(token:string) {
+      this.token = token;
     },
     toggleTheme() {
       if (this.theme === 'dark') {
@@ -55,11 +62,21 @@ export const useMainStore = defineStore('main', {
       this.theme = 'dark';
       this.contentBodyColor = 'rgb(24 24 28)';
     },
-    async fetchPermissions() {
+    async fetchPermissions(_config:DefRecordRaw[], router:Router) {
       // todo
+      this.permissions = ['user'];
+      const [routes, navigation, navigationMap] = filterPermissions(_config, this.permissions);
+      this.setNavigation(navigation);
+      this.setNavigationMap(navigationMap);
+      routes.forEach((route) => {
+        router.addRoute(route);
+      });
     },
     async fetchUserInfo() {
       // todo
     },
+  },
+  getters: {
+    isAuthenticated: (state):boolean => state.token !== '',
   },
 });
