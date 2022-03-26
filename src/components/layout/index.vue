@@ -38,6 +38,7 @@
           style="
             background-color: var(--body-color);
             margin: 10px;
+            margin-top: 5px;
             min-height: calc(100% - 75px);
             border-radius: var(--border-radius);
             border: 1px solid;
@@ -84,6 +85,6 @@ watch(route, () => {
   height: calc(100% - 61px);
 }
 .breadcrumb{
-  margin: 5px 10px;
+  margin: 2px 10px;
 }
 </style>

@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { NMenu } from 'naive-ui';
 import { withDefaults, defineProps } from 'vue';
-import { Navigation } from '../../routes/config';
+import { Navigation } from '../../routes/index';
 import { NavigationToMenuOption } from './utils';
 
 const props = withDefaults(defineProps<{

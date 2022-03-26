@@ -2,7 +2,7 @@ import { RouterLink } from 'vue-router';
 import { NIcon } from 'naive-ui';
 import type { DefineComponent } from 'vue';
 import type { MenuOption } from 'naive-ui';
-import type { Navigation } from '../../routes/config';
+import type { Navigation } from '../../routes/index';
 
 interface Props {
   menus: Navigation[],

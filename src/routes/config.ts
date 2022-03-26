@@ -17,6 +17,7 @@ export default <DefRecordRaw[]>[
     type: 'menu',
     children: [
       {
+        id: 'userAdd',
         name: 'userAdd',
         path: 'user/add',
         title: '新增用户',

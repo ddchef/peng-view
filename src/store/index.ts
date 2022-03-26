@@ -62,7 +62,7 @@ export const useMainStore = defineStore('main', {
     },
     async fetchPermissions(_config:DefRecordRaw[], router:Router) {
       // todo
-      this.permissions = ['user', 'setting'];
+      this.permissions = ['user', 'setting', 'userAdd'];
       const [
         routes, navigation, navigationMap, defaultPath,
       ] = filterPermissions(_config, this.permissions);
