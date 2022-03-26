@@ -18,7 +18,7 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
     parentNav:Navigation|null = null,
     parentRoute:RouteRecordRaw|null = null,
   ) => _config.map((item):Navigation|null => {
-    if (!permissions.includes(item.id)) return null;
+    if (item.id && !permissions.includes(item.id)) return null;
     const baseNav = {
       id: item.id,
       name: item.name || item.id,
@@ -39,7 +39,6 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
       component: () => import(`../view${item.componentPath}`),
     };
     navigationMap.set(baseNav.name, baseNav);
-    const children = filterFuc(item.children || [], baseNav, baseRoute);
 
     // 路由处理
     if (item.type !== 'group') {
@@ -71,6 +70,7 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
         path,
       });
     }
+    const children = filterFuc(item.children || [], baseNav, baseRoute);
     if (children.length > 0) {
       return Object.assign(baseNav, {
         children,
@@ -79,5 +79,6 @@ export function filterPermissions(config:DefRecordRaw[], permissions:string[]):[
     return baseNav;
   }).filter((item) => item) as Navigation[];
   const navigation: Navigation[] = filterFuc(config, null, null);
+  console.log(routes);
   return [routes, navigation, navigationMap, defaultPath];
 }
