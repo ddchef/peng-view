@@ -1,18 +1,18 @@
 <template>
   <n-layout :class="$style.full">
     <n-layout-header bordered>
-      <m-header :logo="$state.logo" :title="$state.title" :user="$state.user">
+      <m-header :logo="store.logo" :title="store.title" :user="store.user">
         <m-menus
-          v-if="$state.menuMode === 'top'"
+          v-if="store.menuMode === 'top'"
           :active="active"
-          :navigation="$state.navigation"
+          :navigation="store.navigation"
           mode="horizontal"
         ></m-menus>
       </m-header>
     </n-layout-header>
     <n-layout :class="$style['without-header-height']" has-sider>
       <n-layout-sider
-        v-if="$state.menuMode === 'left'"
+        v-if="store.menuMode === 'left'"
         width="200"
         bordered
         collapse-mode="transform"
@@ -22,13 +22,13 @@
       >
         <m-menus
           :active="active"
-          :navigation="$state.navigation"
+          :navigation="store.navigation"
         ></m-menus>
       </n-layout-sider>
       <n-layout-content
         native-scrollbar
         :content-style="{
-          'background-color': $state.contentBodyColor
+          'background-color': store.contentBodyColor
         }"
       >
         <div :class="$style.breadcrumb">
@@ -62,16 +62,16 @@ import MHeader from '../header/index.vue';
 import MBreadcrumb from '../breadcrumb/index.vue';
 import { useMainStore } from '../../store';
 import { findNearMenuName } from './utils';
-import { Navigation } from '../../routes/config';
+import { Navigation } from '../../routes/index';
 
 const route = useRoute();
-const { $state } = useMainStore();
+const store = useMainStore();
 const active = ref('');
 const breadcrumb = ref<Navigation>();
 watch(route, () => {
   const name = findNearMenuName(route);
   active.value = name;
-  breadcrumb.value = $state.navigationMap.get(route.name as string);
+  breadcrumb.value = store.navigationMap.get(route.name as string);
 }, {
   immediate: true,
 });

@@ -20,7 +20,6 @@ interface Main {
   user: User,
   theme: 'dark'|'light',
   menuMode: 'left'|'top',
-  contentBodyColor: string,
   token: string,
   indexPath: string,
 }
@@ -41,7 +40,6 @@ export const useMainStore = defineStore('main', {
     },
     theme: 'light',
     menuMode: 'left',
-    contentBodyColor: 'rgb(246, 246, 246)',
     token: '',
     indexPath: '',
   }),
@@ -58,15 +56,13 @@ export const useMainStore = defineStore('main', {
     toggleTheme() {
       if (this.theme === 'dark') {
         this.theme = 'light';
-        this.contentBodyColor = 'rgb(246, 246, 246)';
         return;
       }
       this.theme = 'dark';
-      this.contentBodyColor = 'rgb(24 24 28)';
     },
     async fetchPermissions(_config:DefRecordRaw[], router:Router) {
       // todo
-      this.permissions = ['user'];
+      this.permissions = ['user', 'setting'];
       const [
         routes, navigation, navigationMap, defaultPath,
       ] = filterPermissions(_config, this.permissions);
@@ -93,6 +89,7 @@ export const useMainStore = defineStore('main', {
   },
   getters: {
     isAuthenticated: (state):boolean => state.token !== '',
+    contentBodyColor: (state):string => (state.theme === 'dark' ? 'rgb(24 24 28)' : 'rgb(246, 246, 246)'),
   },
   persist: {
     enabled: true,
