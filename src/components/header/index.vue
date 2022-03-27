@@ -17,7 +17,7 @@
         <n-divider vertical />
         <n-avatar size="small" bordered round :src="props.user?.avatar"></n-avatar>
         <n-divider vertical />
-        <n-dropdown trigger="click" show-arrow :options="options">
+        <n-dropdown trigger="click" show-arrow :options="options" @select="handleOperate">
           <n-button text>
             <n-ellipsis>{{ props.user.realName }}</n-ellipsis>
           </n-button>
@@ -32,9 +32,11 @@ import {
   NSpace, NAvatar, NDivider, NEllipsis, NDropdown, NButton, NIcon,
 } from 'naive-ui';
 import { SunnyOutline, MoonOutline } from '@vicons/ionicons5';
+import { useRouter } from 'vue-router';
 import { useMainStore, User } from '../../store/index';
 
-const { $state, toggleTheme } = useMainStore();
+const router = useRouter();
+const { $state, toggleTheme, logout } = useMainStore();
 const handleToggleTheme = () => {
   toggleTheme();
 };
@@ -47,7 +49,7 @@ const props = withDefaults(defineProps<{
 }>(), {});
 const options = [
   {
-    key: 'change-password',
+    key: 'changePassword',
     label: '修改密码',
   },
   {
@@ -55,6 +57,25 @@ const options = [
     label: '退出',
   },
 ];
+const OperateFuc = new Map([
+  ['changePassword', () => {
+    console.log('change-password');
+  }],
+  ['logout', async () => {
+    await logout();
+    router.replace('/login');
+  }],
+]);
+const handleOperate = (key:string) => {
+  try {
+    const fuc = OperateFuc.get(key);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    fuc();
+  } catch (error) {
+    console.log('缺少 key 值');
+  }
+};
 </script>
 <style module scoped lang="scss">
 .peng-header {

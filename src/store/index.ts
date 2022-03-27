@@ -86,6 +86,9 @@ export const useMainStore = defineStore('main', {
     async fetchUserInfo() {
       // todo
     },
+    async logout() {
+      this.token = '';
+    },
   },
   getters: {
     isAuthenticated: (state):boolean => state.token !== '',
