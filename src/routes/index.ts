@@ -27,7 +27,7 @@ export interface Navigation {
   parent: Navigation|null,
   children?: Navigation[]
 }
-
+export const whitelistRouteName = ['login', 'register', '404'];
 export const router = mixRouterHook(
   createRouter({
     history: createWebHashHistory(),
@@ -38,6 +38,16 @@ export const router = mixRouterHook(
         component: () => import('../view/login/index.vue'),
         meta: {
           public: true,
+          title: '登录',
+        },
+      },
+      {
+        name: 'register',
+        path: '/register',
+        component: () => import('../view/register/index.vue'),
+        meta: {
+          public: true,
+          title: '注册',
         },
       },
       {

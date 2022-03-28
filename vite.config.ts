@@ -15,7 +15,7 @@ export default defineConfig(<UserConfigExport>{
     host: true,
     proxy:{
       '/api':{
-        target: 'localhost:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true,
       }
     }

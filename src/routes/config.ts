@@ -2,14 +2,6 @@ import { DefRecordRaw } from '.';
 
 export default <DefRecordRaw[]>[
   {
-    id: 'login',
-    path: 'login',
-    title: '登录',
-    componentPath: '/login/index.vue',
-    public: true,
-    layout: 'full',
-  },
-  {
     id: 'user',
     path: 'user',
     title: '用户管理',

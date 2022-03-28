@@ -7,32 +7,55 @@
   ></canvas>
   <div :class="[$style.canvas,$style['login-card']]">
     <n-space vertical align="center" justify="center" style="height: 100%;">
-      <n-card title="登录" hoverable size="huge" style="min-width: 500px;">
-        <n-form label-width="60" label-placement="left" label-align="right">
-          <n-form-item label="用户名">
-            <n-input placeholder="请输入用户名"></n-input>
-          </n-form-item>
-          <n-form-item label="密码">
-            <n-input placeholder="请输入密码" type="password" show-password-on="mousedown"></n-input>
-          </n-form-item>
-        </n-form>
-        <n-space justify="end" align="flex-end">
-          <n-button text>注册</n-button>
-          <n-button text>忘记密码</n-button>
-          <n-button type="primary" @click="handleLogin">登&nbsp;录</n-button>
-        </n-space>
-      </n-card>
+      <n-spin :show="showLoading">
+        <template #description>
+          登录中...
+        </template>
+        <n-card title="登录" hoverable size="huge" style="min-width: 500px;">
+          <n-form label-width="60" label-placement="left" label-align="right">
+            <n-form-item label="手机号">
+              <n-input v-model:value="form.mobile" placeholder="请输入手机号"></n-input>
+            </n-form-item>
+            <n-form-item label="密码">
+              <n-input
+                v-model:value="form.password"
+                placeholder="请输入密码"
+                type="password"
+                show-password-on="mousedown"
+              ></n-input>
+            </n-form-item>
+          </n-form>
+          <n-space justify="end" align="flex-end">
+            <n-button text @click="handleRegister">注册</n-button>
+            <n-button text>忘记密码</n-button>
+            <n-button type="primary" @click="handleLogin">登&nbsp;录</n-button>
+          </n-space>
+        </n-card>
+      </n-spin>
     </n-space>
   </div>
 </template>
 <script setup lang="ts">
 import {
-  NButton, NSpace, NCard, NForm, NFormItem, NInput,
+  NButton, NSpace, NCard, NForm, NFormItem, NInput, useMessage,
+  NSpin,
 } from 'naive-ui';
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import {
+  onBeforeUnmount, onMounted, ref,
+} from 'vue';
 import { useRouter } from 'vue-router';
 import config from '../../routes/config';
 import { useMainStore } from '../../store';
+import { login } from './api';
+
+const form = ref<{
+  mobile:string,
+  password: string
+}>({
+  mobile: '',
+  password: '',
+});
+const showLoading = ref(false);
 
 // TODO 登录背景
 const canvasRef = ref(null);
@@ -54,10 +77,25 @@ onBeforeUnmount(() => {
 
 const router = useRouter();
 const store = useMainStore();
+const message = useMessage();
 const handleLogin = () => {
-  store.setToken('12345');
-  store.fetchPermissions(config, router);
-  router.replace({ name: 'user' });
+  showLoading.value = true;
+  login<
+    {access_token:string, expires_in:number, token_type:string}
+    >(form.value).then((res) => {
+      showLoading.value = false;
+      if (res.error_code !== 0) {
+        message.error(res.message);
+        return;
+      }
+      message.success('登录成功');
+      store.setToken(`${res.data.token_type} ${res.data.access_token}`);
+      store.fetchPermissions(config, router);
+      router.replace({ path: '/' });
+    });
+};
+const handleRegister = () => {
+  router.push('/register');
 };
 </script>
 <style module lang="scss">
