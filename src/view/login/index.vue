@@ -13,8 +13,8 @@
         </template>
         <n-card title="登录" hoverable size="huge" style="min-width: 500px;">
           <n-form label-width="60" label-placement="left" label-align="right">
-            <n-form-item label="手机号">
-              <n-input v-model:value="form.mobile" placeholder="请输入手机号"></n-input>
+            <n-form-item label="用户名">
+              <n-input v-model:value="form.username" placeholder="请输入用户名"></n-input>
             </n-form-item>
             <n-form-item label="密码">
               <n-input
@@ -49,10 +49,10 @@ import { useMainStore } from '../../store';
 import { login } from './api';
 
 const form = ref<{
-  mobile:string,
+  username:string,
   password: string
 }>({
-  mobile: '',
+  username: '',
   password: '',
 });
 const showLoading = ref(false);

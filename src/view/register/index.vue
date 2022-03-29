@@ -4,7 +4,7 @@
       <n-card title="注册" hoverable size="huge" style="min-width: 500px;">
         <n-form label-width="60" label-placement="left" label-align="right">
           <n-form-item label="用户名">
-            <n-input v-model:value="form.name" placeholder="请输入用户名"></n-input>
+            <n-input v-model:value="form.username" placeholder="请输入用户名"></n-input>
           </n-form-item>
           <n-form-item label="手机号">
             <n-input v-model:value="form.mobile" placeholder="请输入手机号"></n-input>
@@ -40,11 +40,11 @@ const router = useRouter();
 const message = useMessage();
 
 const form = ref<{
-  name: string,
+  username: string,
   mobile:string,
   password: string
 }>({
-  name: '',
+  username: '',
   mobile: '',
   password: '',
 });
