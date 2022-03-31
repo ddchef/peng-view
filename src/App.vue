@@ -2,7 +2,7 @@
   <n-config-provider :class="$style.full" :theme="theme" :theme-overrides="themeOverrides">
     <n-global-style />
     <n-message-provider>
-      <router-view></router-view>
+      <m-content/>
     </n-message-provider>
   </n-config-provider>
 </template>
@@ -13,6 +13,7 @@ import {
 import { computed } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
 import { useMainStore } from './store';
+import MContent from './Content.vue';
 
 const { $state } = useMainStore();
 const theme = computed(() => {

@@ -4,6 +4,7 @@ import type {
   AxiosResponse,
 } from 'axios';
 import { useMainStore } from '../../store';
+import { router } from '../../routes/index';
 
 declare interface RequestConfig{
   method: Method,
@@ -20,7 +21,7 @@ async function request<T, R=MBody<T>>(url:string, config:RequestConfig, data?:an
   const axiosConfig = <AxiosRequestConfig> {
     url,
     method: config.method,
-    headers: { token: store.token, ...config.headers || {} },
+    headers: { Authorization: store.token, ...config.headers || {} },
   };
   if (['GET', 'DELETE'].includes(config.method.toUpperCase())) {
     axiosConfig.params = data;
@@ -30,6 +31,12 @@ async function request<T, R=MBody<T>>(url:string, config:RequestConfig, data?:an
   }
   const response = await axios.request<R, AxiosResponse<R>>(axiosConfig);
   if (response.status === 200) {
+    // @ts-ignore
+    if (response.data.error_code === 40100) {
+      // @ts-ignore
+      window.$message.error(response.data.message);
+      router.push('/login');
+    }
     return response.data;
   }
   return response.data;

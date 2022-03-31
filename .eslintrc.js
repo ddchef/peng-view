@@ -15,7 +15,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error', { ignoreTypeReferences: true }],
     'import/prefer-default-export': 'off',
     'vue/multi-word-component-names': 'off',
-    'ban-ts-comment': 'off'
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
   settings: {
     'import/resolver': {
