@@ -24,6 +24,15 @@
                 show-password-on="mousedown"
               ></n-input>
             </n-form-item>
+            <n-form-item label="验证码">
+              <n-space>
+                  <n-input
+                    v-model:value="form.code"
+                    placeholder="请输入验证码"
+                  ></n-input>
+                  <img @click="refresh" style="height: 30px;" :src="codeUrl">
+              </n-space>
+            </n-form-item>
           </n-form>
           <n-space justify="end" align="flex-end">
             <n-button text @click="handleRegister">注册</n-button>
@@ -46,14 +55,18 @@ import {
 import { useRouter } from 'vue-router';
 import config from '../../routes/config';
 import { useMainStore } from '../../store';
-import { login } from './api';
+import { login, getCode } from './api';
 
 const form = ref<{
   username:string,
-  password: string
+  password: string,
+  code: string,
+  id:string
 }>({
   username: '',
   password: '',
+  code: '',
+  id: '',
 });
 const showLoading = ref(false);
 
@@ -75,6 +88,16 @@ onBeforeUnmount(() => {
   resizeObserver.value?.unobserve(document.body);
 });
 
+// 验证码
+const codeUrl = ref('');
+const refresh = () => {
+  getCode<{id:string, url:string}>().then((res) => {
+    form.value.id = res.data.id;
+    codeUrl.value = res.data.url;
+  });
+};
+refresh();
+
 const router = useRouter();
 const store = useMainStore();
 const message = useMessage();
@@ -85,6 +108,7 @@ const handleLogin = () => {
     >(form.value).then((res) => {
       showLoading.value = false;
       if (res.error_code !== 0) {
+        refresh();
         message.error(res.message);
         return;
       }

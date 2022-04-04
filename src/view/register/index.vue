@@ -17,6 +17,15 @@
               show-password-on="mousedown"
             ></n-input>
           </n-form-item>
+          <n-form-item label="验证码">
+            <n-space>
+                <n-input
+                  v-model:value="form.code"
+                  placeholder="请输入验证码"
+                ></n-input>
+                <img @click="refresh" style="height: 30px;" :src="codeUrl">
+            </n-space>
+          </n-form-item>
         </n-form>
         <n-space justify="end" align="flex-end">
           <n-button @click="router.go(-1)">返回</n-button>
@@ -29,12 +38,13 @@
 <script setup lang="ts">
 import {
   NButton, NSpace, NCard, NForm, NFormItem, NInput, useMessage,
+  NGi, NGrid,
 } from 'naive-ui';
 import {
   ref,
 } from 'vue';
 import { useRouter } from 'vue-router';
-import { register } from './api';
+import { register, getCode } from './api';
 
 const router = useRouter();
 const message = useMessage();
@@ -42,16 +52,31 @@ const message = useMessage();
 const form = ref<{
   username: string,
   mobile:string,
-  password: string
+  password: string,
+  code: string,
+  id:string
 }>({
   username: '',
   mobile: '',
   password: '',
+  code: '',
+  id: '',
 });
+
+// 验证码
+const codeUrl = ref('');
+const refresh = () => {
+  getCode<{id:string, url:string}>().then((res) => {
+    form.value.id = res.data.id;
+    codeUrl.value = res.data.url;
+  });
+};
+refresh();
 
 const handleRegister = () => {
   register<any>(form.value).then((res) => {
     if (res.error_code !== 0) {
+      refresh();
       message.error(res.message);
       return;
     }
