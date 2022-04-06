@@ -6,8 +6,8 @@
           <n-form-item label="用户名">
             <n-input v-model:value="form.username" placeholder="请输入用户名"></n-input>
           </n-form-item>
-          <n-form-item label="手机号">
-            <n-input v-model:value="form.mobile" placeholder="请输入手机号"></n-input>
+          <n-form-item label="邮箱">
+            <n-input v-model:value="form.email" placeholder="请输入邮箱"></n-input>
           </n-form-item>
           <n-form-item label="密码">
             <n-input
@@ -38,7 +38,6 @@
 <script setup lang="ts">
 import {
   NButton, NSpace, NCard, NForm, NFormItem, NInput, useMessage,
-  NGi, NGrid,
 } from 'naive-ui';
 import {
   ref,
@@ -51,13 +50,13 @@ const message = useMessage();
 
 const form = ref<{
   username: string,
-  mobile:string,
+  email:string,
   password: string,
   code: string,
   id:string
 }>({
   username: '',
-  mobile: '',
+  email: '',
   password: '',
   code: '',
   id: '',

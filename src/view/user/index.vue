@@ -14,11 +14,13 @@ import { DataTableColumns } from 'naive-ui';
 import { ref } from 'vue';
 import { getUserList } from './api';
 import DataTable from '../../components/dataTable/index.vue';
+import { formatDate } from '../../utils/time';
 
 interface User{
   id:number,
   username:string,
-  mobile: string,
+  email: string,
+  active: string,
   created_at: string,
   updated_at: string,
 }
@@ -57,16 +59,26 @@ const columns:DataTableColumns<User> = [
     title: '用户名',
   },
   {
-    key: 'mobile',
-    title: '手机号',
+    key: 'email',
+    title: '邮箱',
+  },
+  {
+    key: 'active',
+    title: '状态',
+    render: (rowData) => {
+      if (rowData.active) return '激活';
+      return '未激活';
+    },
   },
   {
     key: 'created_at',
     title: '创建时间',
+    render: (rowData) => formatDate(rowData.created_at),
   },
   {
     key: 'updated_at',
     title: '最后更新时间',
+    render: (rowData) => formatDate(rowData.updated_at),
   },
 ];
 </script>
