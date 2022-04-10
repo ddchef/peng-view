@@ -37,6 +37,11 @@ async function request<T, R=MBody<T>>(url:string, config:RequestConfig, data?:an
       window.$message.error(response.data.message);
       router.push('/login');
     }
+    // @ts-ignore
+    if (response.data.error_code === 40101) {
+      // @ts-ignore
+      window.$message.error(response.data.message);
+    }
     return response.data;
   }
   return response.data;

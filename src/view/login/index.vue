@@ -91,9 +91,9 @@ onBeforeUnmount(() => {
 // 验证码
 const codeUrl = ref('');
 const refresh = () => {
-  getCode<{id:string, url:string}>().then((res) => {
-    form.value.id = res.data.id;
-    codeUrl.value = res.data.url;
+  getCode<string>().then((res) => {
+    form.value.id = res.data;
+    codeUrl.value = `/api/public/captcha/${res.data}`;
   });
 };
 refresh();
