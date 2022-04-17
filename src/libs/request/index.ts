@@ -15,7 +15,9 @@ export interface MBody<D>{
   message: string,
   data:D
 }
-const axios = Axios.create({});
+const axios = Axios.create({
+  baseURL: '/api/v1',
+});
 async function request<T, R=MBody<T>>(url:string, config:RequestConfig, data?:any):Promise<R> {
   const store = useMainStore();
   const axiosConfig = <AxiosRequestConfig> {
@@ -36,11 +38,15 @@ async function request<T, R=MBody<T>>(url:string, config:RequestConfig, data?:an
       // @ts-ignore
       window.$message.error(response.data.message);
       router.push('/login');
+      // @ts-ignore
+      throw new Error(response.data.message);
     }
     // @ts-ignore
-    if (response.data.error_code === 40101) {
+    if (response.data.error_code !== 0) {
       // @ts-ignore
       window.$message.error(response.data.message);
+      // @ts-ignore
+      throw new Error(response.data.message);
     }
     return response.data;
   }

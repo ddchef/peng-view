@@ -55,7 +55,7 @@ import {
 import { useRouter } from 'vue-router';
 import config from '../../routes/config';
 import { useMainStore } from '../../store';
-import { login, getCode } from './api';
+import { login, postCode } from './api';
 
 const form = ref<{
   username:string,
@@ -91,9 +91,9 @@ onBeforeUnmount(() => {
 // 验证码
 const codeUrl = ref('');
 const refresh = () => {
-  getCode<string>().then((res) => {
+  postCode<string>().then((res) => {
     form.value.id = res.data;
-    codeUrl.value = `/api/public/captcha/${res.data}`;
+    codeUrl.value = `/api/v1/public/captcha/${res.data}`;
   });
 };
 refresh();

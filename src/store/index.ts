@@ -62,7 +62,7 @@ export const useMainStore = defineStore('main', {
     },
     async fetchPermissions(_config:DefRecordRaw[], router:Router) {
       // todo
-      this.permissions = ['user', 'setting', 'userAdd', 'role'];
+      this.permissions = ['user', 'setting', 'userAdd', 'userEdit', 'role'];
       const [
         routes, navigation, navigationMap, defaultPath,
       ] = filterPermissions(_config, this.permissions);
@@ -77,7 +77,7 @@ export const useMainStore = defineStore('main', {
       });
       router.addRoute(
         {
-          path: '/:catchAll(.*)',
+          path: '/:pathMatch(.*)*',
           redirect: '/404',
         },
       );

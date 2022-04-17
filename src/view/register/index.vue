@@ -43,7 +43,7 @@ import {
   ref,
 } from 'vue';
 import { useRouter } from 'vue-router';
-import { register, getCode } from './api';
+import { register, postCode } from './api';
 
 const router = useRouter();
 const message = useMessage();
@@ -65,9 +65,9 @@ const form = ref<{
 // 验证码
 const codeUrl = ref('');
 const refresh = () => {
-  getCode<string>().then((res) => {
+  postCode<string>().then((res) => {
     form.value.id = res.data;
-    codeUrl.value = `/api/public/captcha/${res.data}`;
+    codeUrl.value = `/api/v1/public/captcha/${res.data}`;
   });
 };
 refresh();

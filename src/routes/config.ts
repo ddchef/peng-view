@@ -16,6 +16,14 @@ export default <DefRecordRaw[]>[
         componentPath: '/user/add.vue',
         type: 'page',
       },
+      {
+        id: 'userEdit',
+        name: 'userEdit',
+        path: 'user/:id',
+        title: '编辑用户',
+        componentPath: '/user/add.vue',
+        type: 'page',
+      },
     ],
   },
   {

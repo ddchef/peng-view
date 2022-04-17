@@ -1,14 +1,17 @@
 <template>
   <n-config-provider :class="$style.full" :theme="theme" :theme-overrides="themeOverrides">
     <n-global-style />
-    <n-message-provider>
-      <m-content/>
-    </n-message-provider>
+    <n-dialog-provider>
+      <n-message-provider>
+        <m-content/>
+      </n-message-provider>
+    </n-dialog-provider>
   </n-config-provider>
 </template>
 <script setup lang="ts">
 import {
   NConfigProvider, NGlobalStyle, NMessageProvider, darkTheme,
+  NDialogProvider,
 } from 'naive-ui';
 import { computed } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
