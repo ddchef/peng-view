@@ -76,6 +76,7 @@ watch(route, () => {
 }, {
   immediate: true,
 });
+store.getUserInfo();
 </script>
 <style module lang="scss">
 .full{

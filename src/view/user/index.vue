@@ -11,7 +11,9 @@
   />
 </template>
 <script setup lang="ts">
-import { DataTableColumns, useDialog, useMessage } from 'naive-ui';
+import {
+  DataTableColumns, useDialog, useMessage, NAvatar,
+} from 'naive-ui';
 import { h } from 'vue';
 import { useRouter } from 'vue-router';
 import DataTable, { Operate } from '../../components/dataTable/index.vue';
@@ -64,6 +66,11 @@ userStore.getData();
 const columns:DataTableColumns<User> = [
   {
     type: 'selection',
+  },
+  {
+    key: 'avatar',
+    title: '头像',
+    render: (row) => h(NAvatar, { src: row.avatar }),
   },
   {
     key: 'username',

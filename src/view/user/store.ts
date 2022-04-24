@@ -8,6 +8,7 @@ export interface User{
   active: string,
   created_at: string,
   updated_at: string,
+  avatar:string
 }
 
 interface UserModule {

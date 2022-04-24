@@ -6,6 +6,9 @@
           <n-form-item label="用户名">
             <n-input v-model:value="form.username" placeholder="请输入用户名"></n-input>
           </n-form-item>
+          <n-form-item label="真实姓名">
+            <n-input v-model:value="form.realName" placeholder="请输入真实姓名"></n-input>
+          </n-form-item>
           <n-form-item label="邮箱">
             <n-input v-model:value="form.email" placeholder="请输入邮箱"></n-input>
           </n-form-item>
@@ -52,12 +55,14 @@ const form = ref<{
   username: string,
   email:string,
   password: string,
+  realName: string,
   code: string,
   id:string
 }>({
   username: '',
   email: '',
   password: '',
+  realName: '',
   code: '',
   id: '',
 });

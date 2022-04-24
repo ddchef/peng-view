@@ -115,6 +115,7 @@ const handleLogin = () => {
       message.success('登录成功');
       store.setToken(`${res.data.token_type} ${res.data.access_token}`);
       store.fetchPermissions(config, router);
+      store.getUserInfo();
       router.replace({ path: '/' });
     });
 };

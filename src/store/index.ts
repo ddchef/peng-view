@@ -2,12 +2,13 @@ import { defineStore } from 'pinia';
 import type { Router } from 'vue-router';
 import { DefRecordRaw, Navigation } from '../routes';
 import { filterPermissions } from '../utils/auth';
+import { getUserInfo } from './api';
 
 export interface User {
   avatar: string,
-  name: string,
+  username: string,
   realName: string,
-  phone: string,
+  email: string,
 }
 
 interface Main {
@@ -33,10 +34,10 @@ export const useMainStore = defineStore('main', {
     title: 'PENG管理系统',
     subTitle: '',
     user: {
-      avatar: 'https://rumenz.com/static/cimg/img/demo2.jpg',
-      name: 'admin',
-      realName: '系统管理员',
-      phone: '18222222222',
+      avatar: '',
+      username: '',
+      realName: '',
+      email: '',
     },
     theme: 'light',
     menuMode: 'left',
@@ -44,6 +45,10 @@ export const useMainStore = defineStore('main', {
     indexPath: '',
   }),
   actions: {
+    async getUserInfo() {
+      const res = await getUserInfo<User>();
+      this.user = res.data;
+    },
     setNavigation(navigation: Navigation[]) {
       this.navigation = navigation;
     },

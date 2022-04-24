@@ -6,6 +6,9 @@
     <n-form-item label="邮箱" path="email">
       <n-input v-model:value="form.email" placeholder="请输入邮箱"></n-input>
     </n-form-item>
+    <n-form-item label="真实姓名" path="realName">
+      <n-input v-model:value="form.realName" placeholder="请输入真实姓名"></n-input>
+    </n-form-item>
     <n-form-item>
       <n-space>
         <n-button @click="router.back()">取消</n-button>
@@ -30,17 +33,22 @@ const message = useMessage();
 const formRef = ref(null);
 interface User {
   username:string,
-  email:string
+  email:string,
+  realName: string
 }
 const form = ref<User>({
   username: '',
   email: '',
+  realName: '',
 });
 const rules = {
   username: [
     { required: true, message: '必填项' },
   ],
   email: [
+    { required: true, message: '必填项' },
+  ],
+  realName: [
     { required: true, message: '必填项' },
   ],
 };
@@ -65,10 +73,7 @@ const handleSubmit = () => {
 };
 if (id !== undefined) {
   getUser<User>(id as string).then((res) => {
-    form.value = {
-      username: res.data.username,
-      email: res.data.email,
-    };
+    form.value = res.data;
   });
 }
 </script>
